@@ -1,0 +1,168 @@
+@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Tiny5&display=swap');
+
+*{
+    font-family: "Pixelify Sans", serif;
+}
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #FCE7C8;
+}
+
+#startMenu {
+    text-align: center;
+    color: white;
+}
+
+#gameContainer {
+    display: none;
+}
+
+.container{
+    display: flex;
+    flex-direction: row;
+}
+.Container{
+    display: flex;
+    flex-direction: column;
+    background-color: #B1C29E;
+    border: solid #687e4e 8px;
+}
+.tools{
+    display: flex;
+    flex-direction: column;
+}
+#canvas {
+    display: grid;
+    grid-template-columns: repeat(32, 15px);
+    gap: 1px;
+    background-color: white;
+    border: none;
+    
+}
+
+.pixel {
+    width: 15px;
+    height: 15px;
+    background-color: white;
+    border: 1px solid #ecf0f1;
+}
+
+#tools {
+    background-color: #FADA7A;
+    border: solid #F0A04B 8px;
+    width: 20vw;
+    margin-right: 50px;
+    padding-top: 20px;
+}
+
+.color-swatch {
+    width: 30px;
+    height: 30px;
+    margin: 10px;
+    border: 2px solid #000;
+    cursor: pointer;
+}
+
+#eraser {
+    width: 30px;
+    height: 30px;
+    margin: 5px;
+    background-color: white;
+    border: 2px solid #000;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+}
+
+#colorPicker {
+    height: 30px;
+    width: 30px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+#timer, #streak {
+    color: white;
+    font-size: 24px;
+    margin: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    margin: 5px;
+    cursor: pointer;
+    background-color: #B1C29E;
+    border: solid #687e4e 4px;
+    border-radius: 0%;
+    color: white;
+    font-family: "Pixelify Sans", serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.selected {
+    border: 2px solid yellow !important;
+}
+
+#prompt {
+    color: white;
+    font-size: 20px;
+    margin: 10px;
+}
+
+#endMessage {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 40px;
+    color: #000;
+}
+h1{
+    font-family: "Pixelify Sans", serif;
+    -webkit-text-stroke: 4px #000;
+    font-size: 5rem;
+    font-weight: 800;
+    margin: 0px;
+}
+p{
+    color: #000;
+    font-family: "Pixelify Sans", serif;
+    font-size: 1.2rem;
+}
+img{
+    height: 100%;
+    width: 100%;
+}
+#clear{
+    background-color: #bd3f50;
+    border-color: #a51b2d;
+    font-size: 1rem;
+    margin-top: 50px;
+}
+#done{
+    font-size: 1rem;
+    margin-top: 50px;
+}
+#colors{
+    display: grid;
+    grid-template-columns: repeat(6, 30px);
+    grid-template-rows: repeat(7, 30px);
+    grid-row-gap: 10px; 
+    grid-column-gap: 10px;
+}
+#textContainer{
+    text-align: center;
+    background-color: #B1C29E;
+    border: #7e544e 8px;
+    width: 20vw;
+    margin-left: 50px;
+    padding-top: 20px;
+
+}

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pixel Art Speedrun</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="startMenu">
+        <h1>Pixel Art Speedrun</h1>
+        <p>Create as many pixel arts as you can in 3 minutes!</p>
+        <button onclick="startGame()">Start</button>
+    </div>
+
+    <div id="gameContainer">
+
+        <div class="container">
+            <div id="tools">
+                <div id="colors">
+                    <div class="color-swatch" style="background-color: #000000" onclick="selectColor('#000000')"></div>
+                    <div class="color-swatch" style="background-color: #FF0000" onclick="selectColor('#FF0000')"></div>
+                    <div class="color-swatch" style="background-color: #00FF00" onclick="selectColor('#00FF00')"></div>
+                    <div class="color-swatch" style="background-color: #0000FF" onclick="selectColor('#0000FF')"></div>
+                    <div class="color-swatch" style="background-color: #FFFF00" onclick="selectColor('#FFFF00')"></div>
+                </div>
+                <input type="color" id="colorPicker" onchange="addCustomColor(event)">
+                <div id="eraser" onclick="selectEraser()"><img src="eraser.png" alt="eraser"></div>
+                <button id="clear" onclick="clearCanvas()">Clear</button>
+                <button id="done" onclick="handleDone()">Done!</button>
+            </div>
+            <div id="canvas"></div>
+            <div id="textContainer">
+                <div id="timer">Time: 3:00</div>
+                <div id="streak">Streak: 0</div>
+                <div id="prompt"></div>
+            </div>
+            
+        </div>
+    </div>
+
+    <div id="endMessage">Thanks for your kindness</div>
+
+    <script>
+        let timeLeft = 180; // 3 minutes in seconds
+        let streak = 0;
+        let timerId;
+        let isDrawing = false;
+        let selectedColor = '#000000';
+        let isEraserActive = false;
+        const prompts = [
+            "Cat", "Tree", "House", "Car", "Flower",
+            "Dog", "Castle", "Spaceship", "Robot", "Pizza",
+            "Book", "Coffee Cup", "Mountain", "River", "Sun"
+        ];
+
+        function startGame() {
+            document.getElementById('startMenu').style.display = 'none';
+            document.getElementById('gameContainer').style.display = 'block';
+            generatePrompt();
+            createCanvas();
+            startTimer();
+        }
+
+        function createCanvas() {
+            const canvas = document.getElementById('canvas');
+            canvas.innerHTML = '';
+            for (let i = 0; i < 32 * 32; i++) {
+                const pixel = document.createElement('div');
+                pixel.className = 'pixel';
+                pixel.addEventListener('mousedown', startDrawing);
+                pixel.addEventListener('mouseenter', draw);
+                pixel.addEventListener('mouseup', stopDrawing);
+                canvas.appendChild(pixel);
+            }
+        }
+
+        function startDrawing(e) {
+            isDrawing = true;
+            draw(e);
+        }
+
+        function draw(e) {
+            if (isDrawing) {
+                e.target.style.backgroundColor = isEraserActive ? 'white' : selectedColor;
+            }
+        }
+
+        function stopDrawing() {
+            isDrawing = false;
+        }
+
+        function selectColor(color) {
+            selectedColor = color;
+            isEraserActive = false;
+            document.querySelectorAll('.color-swatch').forEach(swatch => {
+                swatch.classList.remove('selected');
+            });
+            event.target.classList.add('selected');
+            document.getElementById('eraser').classList.remove('selected');
+        }
+
+        function selectEraser() {
+            isEraserActive = true;
+            document.querySelectorAll('.color-swatch').forEach(swatch => {
+                swatch.classList.remove('selected');
+            });
+            document.getElementById('eraser').classList.add('selected');
+        }
+
+        function addCustomColor(event) {
+            const color = event.target.value;
+            const colorsContainer = document.getElementById('colors');
+            const newSwatch = document.createElement('div');
+            newSwatch.className = 'color-swatch';
+            newSwatch.style.backgroundColor = color;
+            newSwatch.onclick = () => selectColor(color);
+            colorsContainer.appendChild(newSwatch);
+        }
+
+        function clearCanvas() {
+            document.querySelectorAll('.pixel').forEach(pixel => {
+                pixel.style.backgroundColor = 'white';
+            });
+        }
+
+        function generatePrompt() {
+            const prompt = prompts[Math.floor(Math.random() * prompts.length)];
+            document.getElementById('prompt').textContent = `Draw: ${prompt}`;
+        }
+
+        function startTimer() {
+            timerId = setInterval(() => {
+                timeLeft--;
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                document.getElementById('timer').textContent = 
+                    `Time: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+                if (timeLeft <= 0) {
+                    clearInterval(timerId);
+                    if (streak > 10) {
+                        document.getElementById('endMessage').style.display = 'block';
+                    }
+                    alert(`Time's up! Final streak: ${streak}`);
+                }
+            }, 1000);
+        }
+
+        function handleDone() {
+            if (timeLeft <= 0) return;
+            
+            streak++;
+            document.getElementById('streak').textContent = `Streak: ${streak}`;
+            clearCanvas();
+            generatePrompt();
+        }
+    </script>
+</body>
+</html>
